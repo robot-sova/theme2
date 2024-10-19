@@ -1,0 +1,29 @@
+---
+import IntegrationSingle from "@/layouts/IntegrationSingle.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+
+export async function getStaticPaths() {
+  const BLOG_FOLDER = "integration";
+  const integrations = await getSinglePage(BLOG_FOLDER);
+
+  const paths = integrations.map((integration) => ({
+    params: {
+      single: integration.slug,
+    },
+    props: { integration },
+  }));
+  return paths;
+}
+
+const { integration } = Astro.props;
+const { title, meta_title, description, image } = integration.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}>
+  <IntegrationSingle {integration} />
+</Base>

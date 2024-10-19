@@ -1,0 +1,32 @@
+---
+import Integration from "@/partials/Integration.astro";
+import FeaturesSection from "@/partials/Features.astro";
+import FeaturesBanner from "@/partials/FeaturesBanner.astro";
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import { getEntry } from "astro:content";
+
+const { data } = await getEntry("features", "-index");
+const { title, description, noindex, meta_title, image } = data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+  noindex={noindex}>
+  <FeaturesBanner />
+
+  <hr class="divider" />
+
+  <FeaturesSection />
+
+  <hr class="divider" />
+
+  <Integration />
+
+  <hr class="divider" />
+
+  <CallToAction />
+</Base>

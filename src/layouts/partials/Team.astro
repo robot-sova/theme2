@@ -1,0 +1,40 @@
+---
+import AnimatedCircles from "@/components/AnimatedCircles.astro";
+import TeamSlider from "@/components/TeamSlider.astro";
+import type { Team } from "@/types";
+import DotTitle from "@/components/DotTitle.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import { getEntry } from "astro:content";
+
+const { team }: { team: Team } = (await getEntry("about", "-index")).data;
+---
+
+{
+  team && team.enable && (
+    <section class="section overflow-hidden">
+      <div class="container-light relative">
+        <div>
+          {team.subtitle && (
+            <div class="flex justify-center" data-aos="fade-up-sm">
+              <DotTitle title={team.subtitle} />
+            </div>
+          )}
+          {team.title && (
+            <h2
+              class="mb-6 lg:mb-12 text-center 2xl:col-10 mx-auto"
+              data-aos="fade-up-sm"
+              data-aos-delay="100"
+              set:html={markdownify(team.title)}
+            />
+          )}
+        </div>
+
+        <TeamSlider data={team.members} />
+
+        <div class="absolute right-0 bottom-0 translate-y-1/2 translate-x-1/2">
+          <AnimatedCircles />
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,108 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import type { ClientFeedback } from "@/types";
+import DotTitle from "@/components/DotTitle.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import { getEntry } from "astro:content";
+
+const { client_feedback }: { client_feedback: ClientFeedback } = (
+  await getEntry("about", "-index")
+).data;
+---
+
+{
+  client_feedback && client_feedback.enable && (
+    <section class="section overflow-x-hidden">
+      <div class="container-sm xl:px-16">
+        <div class="row items-center justify-between">
+          <div
+            class="md:col-5 lg:col-6 md:order-2 w-full max-w-[540px] h-[450px] xl:h-[560px] relative mx-auto"
+            data-aos="zoom-out-sm">
+            {client_feedback.image && (
+              <img
+                src={client_feedback.image}
+                alt="Help grow"
+                draggable="false"
+                class="absolute top-0 right-0 w-full max-w-[480px]"
+              />
+            )}
+
+            <div class="absolute bottom-0 left-0">
+              <div class="text-center bg-white shadow w-72 p-3 lg:p-7">
+                {client_feedback.quote && (
+                  <p
+                    class="font-light text-dark/60 text-base-sm leading-relaxed mb-3"
+                    set:html={markdownify(client_feedback.quote)}
+                  />
+                )}
+                <div class="flex justify-center gap-x-2">
+                  <DynamicIcon
+                    icon="FaStar"
+                    className="text-[#FFC804] text-sm"
+                  />
+                  <DynamicIcon
+                    icon="FaStar"
+                    className="text-[#FFC804] text-sm"
+                  />
+                  <DynamicIcon
+                    icon="FaStar"
+                    className="text-[#FFC804] text-sm"
+                  />
+                  <DynamicIcon
+                    icon="FaStar"
+                    className="text-[#FFC804] text-sm"
+                  />
+                  <DynamicIcon
+                    icon="FaStar"
+                    className="text-[#FFC804] text-sm"
+                  />
+                </div>
+                {client_feedback.author && (
+                  <p
+                    class="py-2 text-base-sm text-dark font-bold"
+                    set:html={markdownify(client_feedback.author)}
+                  />
+                )}
+                {client_feedback.designation && (
+                  <p
+                    class="text-base-sm"
+                    set:html={markdownify(client_feedback.designation)}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <div
+            class="md:col-7 lg:col-6 pt-10 md:pt-0 md:order-1"
+            data-aos="fade-left-sm">
+            {client_feedback.subtitle && (
+              <div>
+                <DotTitle title={client_feedback.subtitle} />
+              </div>
+            )}
+            {client_feedback.title && (
+              <h2
+                class="mb-6 lg:mb-7"
+                set:html={markdownify(client_feedback.title)}
+              />
+            )}
+            {client_feedback.description && (
+              <p
+                class="text-base"
+                set:html={markdownify(client_feedback.description)}
+              />
+            )}
+
+            {client_feedback.button && (
+              <a
+                href={client_feedback.button.link}
+                class="btn btn-primary mt-8"
+                set:html={markdownify(client_feedback.button.label)}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,57 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import DotTitle from "@/components/DotTitle.astro";
+import { getEntry } from "astro:content";
+import Marquee from "@/components/Marquee.astro";
+
+const { data } = await getEntry("sections", "integration");
+const { enable, title, subtitle, cta_button, integrations } = data;
+---
+
+{
+  enable && (
+    <section class="section overflow-x-hidden">
+      {subtitle && (
+        <div class="flex justify-center" data-aos="fade-up-sm">
+          <DotTitle title={subtitle} />
+        </div>
+      )}
+
+      {title && (
+        <h2
+          class="mb-8 lg:mb-10 text-center xl:col-8 mx-auto md:px-10"
+          data-aos="fade-up-sm"
+          set:html={markdownify(title)}
+        />
+      )}
+
+      {integrations && (
+        <Marquee
+          gutter={0}
+          marquee_contents={integrations}
+          layout="boxed"
+          className="mb-4"
+        />
+      )}
+
+      {integrations && (
+        <div data-aos="fade-up-sm">
+          <Marquee
+            marquee_contents={integrations}
+            gutter={0}
+            layout="boxed"
+            reverse={true}
+          />
+        </div>
+      )}
+
+      {cta_button && (
+        <div class="flex justify-center mt-8 lg:mt-10">
+          <a href={cta_button.link} class="btn btn-primary text-center">
+            {cta_button.label}
+          </a>
+        </div>
+      )}
+    </section>
+  )
+}

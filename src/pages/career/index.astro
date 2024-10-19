@@ -1,0 +1,39 @@
+---
+import OpenedPositions from "@/partials/OpenedPositions.astro";
+import CareerBanner from "@/partials/CareerBanner.astro";
+import GalleryCreative from "@/partials/GalleryCreative.astro";
+import AboutUsWithStats from "@/partials/AboutUsWithStats.astro";
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import { getEntry } from "astro:content";
+
+const career = await getEntry("career", "-index");
+const { title, description, noindex, meta_title, image } = career.data;
+
+const gallery = career.data.gallery;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+  noindex={noindex}>
+  <CareerBanner />
+
+  <hr class="divider" />
+
+  <AboutUsWithStats />
+
+  <hr class="divider" />
+
+  <GalleryCreative {gallery} />
+
+  <hr class="divider" />
+
+  <OpenedPositions />
+
+  <hr class="divider" />
+
+  <CallToAction />
+</Base>

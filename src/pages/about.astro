@@ -1,0 +1,42 @@
+---
+import Gallery from "@/partials/Gallery.astro";
+import ClientFeedback from "@/partials/ClientFeedback.astro";
+import Team from "@/partials/Team.astro";
+import WhyJoinUs from "@/partials/WhyJoinUs.astro";
+import AboutBanner from "@/partials/AboutBanner.astro";
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/partials/CallToAction.astro";
+import { getEntry } from "astro:content";
+
+const about = await getEntry("about", "-index");
+const { title, description, noindex, meta_title, image } = about.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+  noindex={noindex}>
+  <AboutBanner />
+
+  <hr class="divider mt-11 hidden md:block" />
+
+  <WhyJoinUs />
+
+  <hr class="divider" />
+
+  <ClientFeedback />
+
+  <hr class="divider" />
+
+  <Gallery gallery={about.data.gallery} />
+
+  <hr class="divider" />
+
+  <Team />
+
+  <hr class="divider" />
+
+  <CallToAction />
+</Base>
